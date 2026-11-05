@@ -61,8 +61,8 @@ int main() {
     std::cout << "Отсортированный массив: ";
     fout << "Отсортированный массив:\n";
     for (size_t i = 0; i < N; ++i) {
-        std::cout << data[i] << " ";
-        fout << data[i] << " ";
+        //std::cout << data[i] << " ";
+        //fout << data[i] << " ";
         if ((i + 1) % 10 == 0) fout << "\n";  // в файле перенос строки каждые 10 чисел — чтобы не было одной длинной строки
     }
     std::cout << "\n";
@@ -86,7 +86,7 @@ int main() {
         // Шаг 1: сумма всех элементов (для среднего)
         double sum = 0.0;
 #pragma omp parallel for reduction(+:sum)   // параллельный цикл; reduction собирает частные суммы потоков в одну
-        for (size_t i = 0; i < N; ++i) {
+        for (int i = 0; i < N; ++i) {
             sum += data[i];
         }
         double mean = sum / static_cast<double>(N);   // среднее арифметическое
@@ -94,7 +94,7 @@ int main() {
         // Шаг 2: сумма квадратов отклонений (для СКО)
         double sq_sum = 0.0;
 #pragma omp parallel for reduction(+:sq_sum)
-        for (size_t i = 0; i < N; ++i) {
+        for (int i = 0; i < N; ++i) {
             double diff = data[i] - mean;   // отклонение элемента от среднего
             sq_sum += diff * diff;          // его квадрат
         }
